@@ -1,0 +1,9 @@
+8.1- Word_count
+
+A = LOAD '/pigwordcount' using PigStorage('\t') AS(line:chararray);
+B = foreach A generate TOKENIZE(line,'') as words;
+C = foreach B generate FLATTEN(words);
+D = group C by word;
+E = foreach D generate group ,COUNT(C);
+ordE = order E by group;
+store ordE into '/pigresult'; 
